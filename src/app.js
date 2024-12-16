@@ -1,6 +1,5 @@
 import { db, ref, set, get, remove } from './firebase.js';
 import { searchTMDb, getSeriesDetails, getSeasonDetails } from './tmdb.js';
-
 const searchInput = document.getElementById('search-input');
 const searchButton = document.getElementById('search-btn');
 const clearButton = document.getElementById('clear-btn');
