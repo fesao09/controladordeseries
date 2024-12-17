@@ -1,5 +1,16 @@
 {
+  "name": "controladordeseries",
+  "version": "1.0.0",
+  "description": "Plataforma de controle de filmes e séries",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
+    "express": "^4.18.2",
     "firebase": "^11.1.0"
-  }
- }
+  },
+  "keywords": [],
+  "author": "Seu Nome",
+  "license": "ISC"
+}
