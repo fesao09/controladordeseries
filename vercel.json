@@ -1,7 +1,9 @@
 {
+    "public": true,
     "cleanUrls": true,
     "rewrites": [
-      { "source": "/(.*)", "destination": "/" }
+      { "source": "/src/:path*", "destination": "/src/:path*" },
+      { "source": "/styles/:path*", "destination": "/styles/:path*" }
     ]
   }
   
