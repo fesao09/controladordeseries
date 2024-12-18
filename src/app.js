@@ -58,6 +58,9 @@ window.addToSelectedCategory = async (name, id) => {
   const categorySelect = document.getElementById(`category-select-${id}`);
   const category = categorySelect.value;
 
+  console.log(`Categoria selecionada: ${category}`);
+  console.log(`Adicionando item: ${name} (${id})`);
+
   if (!category) {
     alert("Selecione uma categoria!");
     return;
@@ -65,14 +68,20 @@ window.addToSelectedCategory = async (name, id) => {
 
   const imagePath = document.querySelector(`#category-select-${id}`).parentNode.querySelector('img').src;
 
-  const categoryRef = ref(db, `${category}/${id}`); // Salva o ID como chave
-  await set(categoryRef, {
-    id, // Salva o ID
-    name,
-    poster_path: imagePath
-  });
+  const categoryRef = ref(db, `${category}/${id}`);
+  try {
+    await set(categoryRef, {
+      id,
+      name,
+      poster_path: imagePath
+    });
 
-  loadCategory(category);
+    console.log(`Item adicionado com sucesso: ${name} na categoria ${category}`);
+    loadCategory(category);
+  } catch (error) {
+    console.error(`Erro ao adicionar item na categoria ${category}:`, error);
+    alert("Erro ao adicionar o item. Verifique os detalhes no console.");
+  }
 };
 
 // Carregar Categorias
@@ -107,6 +116,27 @@ async function loadCategory(category) {
       moviesGrid.appendChild(div);
     });
   }
+}
+async function findFirstPendingSeason(seriesId, seasons) {
+  for (const season of seasons) {
+    const seasonRef = ref(db, `series/${seriesId}/season-${season.season_number}`);
+    const snapshot = await get(seasonRef);
+
+    if (snapshot.exists()) {
+      const episodes = snapshot.val();
+      const hasPending = Object.values(episodes).some(isWatched => !isWatched);
+
+      if (hasPending) {
+        return season.season_number; // Retorna a primeira temporada com episódios pendentes
+      }
+    } else {
+      // Se não houver dados no Firebase, considera que a temporada não foi assistida
+      return season.season_number;
+    }
+  }
+
+  // Retorna a primeira temporada por padrão caso todas estejam assistidas
+  return seasons[0].season_number;
 }
 
 // Mostrar Detalhes no Pop-up
