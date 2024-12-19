@@ -380,3 +380,5 @@ window.removeFromCategory = async (id, category) => {
 Object.keys(categories).forEach(loadCategory);
 
 
+
+

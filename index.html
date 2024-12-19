@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Minha Plataforma de Filmes</title>
-  <link rel="stylesheet" href="/styles/styles.css">
+  <link rel="stylesheet" href="./styles/styles.css">
 </head>
 <body>
   <header>
@@ -29,22 +29,22 @@
 
       <div id="filmes-assistidos">
         <h3>Filmes Assistidos</h3>
-        <div id="filmes-assistidos-grid" class="movies-grid"></div> <!-- Grid com ID correto -->
+        <div id="filmes-assistidos-grid" class="movies-grid"></div>
       </div>
 
       <div id="filmes-para-assistir">
         <h3>Filmes para Assistir</h3>
-        <div id="filmes-para-assistir-grid" class="movies-grid"></div> <!-- Grid com ID correto -->
+        <div id="filmes-para-assistir-grid" class="movies-grid"></div>
       </div>
 
       <div id="series-em-andamento">
         <h3>Séries em Andamento</h3>
-        <div id="series-em-andamento-grid" class="movies-grid"></div> <!-- Grid com ID correto -->
+        <div id="series-em-andamento-grid" class="movies-grid"></div>
       </div>
 
       <div id="series-assistidas">
         <h3>Séries Assistidas</h3>
-        <div id="series-assistidas-grid" class="movies-grid"></div> <!-- Grid com ID correto -->
+        <div id="series-assistidas-grid" class="movies-grid"></div>
       </div>
     </section>
   </main>
@@ -56,24 +56,8 @@
       <div id="popup-details"></div>
     </div>
   </div>
-  
-  <!-- Pop-up para escolher categoria -->
-  <div id="category-popup" class="popup hidden">
-    <div class="popup-content">
-      <h3>Escolha uma categoria para adicionar</h3>
-      <button onclick="addToCategory('filmes-assistidos')">Filmes Assistidos</button>
-      <button onclick="addToCategory('filmes-para-assistir')">Filmes para Assistir</button>
-      <button onclick="addToCategory('series-em-andamento')">Séries em Andamento</button>
-      <button onclick="addToCategory('series-assistidas')">Séries Assistidas</button>
-      <button onclick="closeCategoryPopup()">Fechar</button>
-    </div>
-  </div>
 
   <!-- Importando o script js -->
-  <script type="module" src="/src/app.js"></script>
+  <script type="module" src="./src/app.js"></script>
 </body>
 </html>
-
-
-
-
