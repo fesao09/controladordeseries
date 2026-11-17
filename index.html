@@ -1,63 +1,88 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Minha Plataforma de Filmes</title>
-  <link rel="stylesheet" href="./styles/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Plataforma de Filmes e Séries</title>
+    <!-- FontAwesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js para os gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles/styles.css">
 </head>
 <body>
-  <header>
-    <h1>Minha Plataforma de Filmes</h1>
-    <div class="search-bar">
-      <input type="text" id="search-input" placeholder="Busque filmes ou séries...">
-      <button id="search-btn">Buscar</button>
-      <button id="clear-btn">Limpar</button>
+    <header class="main-header">
+        <h1><i class="fa-solid fa-clapperboard"></i> Minha Plataforma de Filmes</h1>
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Pesquisar título no TMDb...">
+            <button id="search-btn" class="btn-primary"><i class="fa-solid fa-search"></i> Buscar</button>
+            <button id="clear-btn" class="btn-secondary"><i class="fa-solid fa-trash-can"></i> Limpar</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Resultados da Busca -->
+        <section class="category-section" id="search-results-section">
+            <h2><i class="fa-solid fa-magnifying-glass"></i> Resultados da Busca</h2>
+            <div id="results-grid" class="media-grid"></div>
+        </section>
+
+        <!-- Dashboard com Gráficos e Indicadores -->
+        <section class="dashboard-section">
+            <div class="stat-card chart-container-box">
+                <h3><i class="fa-solid fa-chart-pie"></i> Distribuição de Mídia</h3>
+                <div class="chart-wrapper">
+                    <canvas id="mediaChart"></canvas>
+                </div>
+            </div>
+            <div class="stat-card quick-stats">
+                <h3><i class="fa-solid fa-bolt"></i> Resumo de Maratona</h3>
+                <div class="stat-item">
+                    <span><i class="fa-solid fa-film" style="color: #4ecca3;"></i> Filmes Assistidos:</span>
+                    <strong id="countFilmesAssistidos">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span><i class="fa-solid fa-tv" style="color: #f39c12;"></i> Séries em Andamento:</span>
+                    <strong id="countSeriesAndamento">0</strong>
+                </div>
+                <div class="stat-item">
+                    <span><i class="fa-solid fa-flag-checkered" style="color: #9b59b6;"></i> Séries Assistidas:</span>
+                    <strong id="countSeriesAssistidas">0</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categorias (Mantém os IDs que o seu app.js utiliza) -->
+        <section class="category-section" id="filmes-assistidos">
+            <h2><i class="fa-solid fa-check-circle" style="color: #4ecca3;"></i> Filmes Assistidos</h2>
+            <div class="movies-grid media-grid"></div>
+        </section>
+
+        <section class="category-section" id="filmes-para-assistir">
+            <h2><i class="fa-solid fa-clock" style="color: #3498db;"></i> Filmes para Assistir</h2>
+            <div class="movies-grid media-grid"></div>
+        </section>
+
+        <section class="category-section" id="series-em-andamento">
+            <h2><i class="fa-solid fa-play" style="color: #f39c12;"></i> Séries em Andamento</h2>
+            <div class="movies-grid media-grid"></div>
+        </section>
+
+        <section class="category-section" id="series-assistidas">
+            <h2><i class="fa-solid fa-flag-checkered" style="color: #9b59b6;"></i> Séries Assistidas</h2>
+            <div class="movies-grid media-grid"></div>
+        </section>
+    </main>
+
+    <!-- Modal de Detalhes / Temporadas (Usado pelo seu app.js) -->
+    <div id="details-popup" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeDetailsModal()">&times;</span>
+            <div id="popup-details"></div>
+        </div>
     </div>
-  </header>
 
-  <main>
-    <!-- Resultados da Busca -->
-    <section class="search-results">
-      <h2>Resultados da Busca</h2>
-      <div id="results-grid" class="movies-grid"></div>
-    </section>
-
-    <!-- Categorias -->
-    <section class="categories">
-      <h2>Minhas Categorias</h2>
-
-      <div id="filmes-assistidos">
-        <h3>Filmes Assistidos</h3>
-        <div id="filmes-assistidos-grid" class="movies-grid"></div>
-      </div>
-
-      <div id="filmes-para-assistir">
-        <h3>Filmes para Assistir</h3>
-        <div id="filmes-para-assistir-grid" class="movies-grid"></div>
-      </div>
-
-      <div id="series-em-andamento">
-        <h3>Séries em Andamento</h3>
-        <div id="series-em-andamento-grid" class="movies-grid"></div>
-      </div>
-
-      <div id="series-assistidas">
-        <h3>Séries Assistidas</h3>
-        <div id="series-assistidas-grid" class="movies-grid"></div>
-      </div>
-    </section>
-  </main>
-
-  <!-- Pop-up para Detalhes -->
-  <div id="details-popup" class="popup hidden">
-    <div class="popup-content">
-      <span class="close-btn" onclick="closeDetailsModal()">×</span>
-      <div id="popup-details"></div>
-    </div>
-  </div>
-
-  <!-- Importando o script js -->
-  <script type="module" src="./src/app.js"></script>
+    <!-- Script principal integrado com Firebase e TMDb -->
+    <script type="module" src="src/app.js"></script>
 </body>
 </html>
