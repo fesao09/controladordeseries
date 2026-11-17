@@ -378,6 +378,53 @@ window.removeFromCategory = async (id, category) => {
 
 // Carregar Todas as Categorias ao Iniciar
 Object.keys(categories).forEach(loadCategory);
+let chartInstance = null;
+
+async function atualizarGraficoDashboard() {
+  const fAssistidos = (await get(ref(db, 'filmes-assistidos'))).size || 0;
+  const fParaAssistir = (await get(ref(db, 'filmes-para-assistir'))).size || 0;
+  const sAndamento = (await get(ref(db, 'series-em-andamento'))).size || 0;
+  const sAssistidas = (await get(ref(db, 'series-assistidas'))).size || 0;
+
+  // Atualiza os contadores rápidos no topo
+  const elFA = document.getElementById('countFilmesAssistidos');
+  const elSA = document.getElementById('countSeriesAndamento');
+  const elSAS = document.getElementById('countSeriesAssistidas');
+
+  if (elFA) elFA.innerText = fAssistidos;
+  if (elSA) elSA.innerText = sAndamento;
+  if (elSAS) elSAS.innerText = sAssistidas;
+
+  const ctx = document.getElementById('mediaChart');
+  if (!ctx) return;
+
+  if (chartInstance) {
+    chartInstance.destroy();
+  }
+
+  chartInstance = new Chart(ctx.getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Filmes Assist.', 'Filmes Fila', 'Séries Andam.', 'Séries Assist.'],
+      datasets: [{
+        data: [fAssistidos, fParaAssistir, sAndamento, sAssistidas],
+        backgroundColor: ['#4ecca3', '#3498db', '#f39c12', '#9b59b6'],
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom', labels: { color: '#a0a0c0', font: { size: 10 } } }
+      }
+    }
+  });
+}
+
+// Chame essa função logo após carregar as categorias no seu script principal:
+// (Basta colocar a linha abaixo no final do seu arquivo app.js)
+setTimeout(atualizarGraficoDashboard, 1000);
 
 
 
